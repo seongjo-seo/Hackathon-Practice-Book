@@ -1,3 +1,4 @@
+/** 데이터베이스 */
 module.exports = {
   HOST: 'localhost',
   USER: 'root',
