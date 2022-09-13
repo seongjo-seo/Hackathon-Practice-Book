@@ -2,9 +2,9 @@ const { v4: uuidv4 } = require("uuid");
 const db = require("../models");
 const User = db.User;
 
-// Create and Save a new User
+/** Create and Save a new User  */
 exports.create = async (req, res) => {
-  const { identity, password, name, email } = req.body;
+  const { identity, password, name, email, mbti, gender } = req.body;
 
   if (!req.body.identity) {
     res.status(400).send({
@@ -17,15 +17,17 @@ exports.create = async (req, res) => {
     id: uuidv4(),
     identity,
     password,
-    name,
     email,
+    name,
+    // mbti,
+    // gender,
   };
 
   try {
     const created = await User.create(user);
-
     res.send(created);
-  } catch (err) {
+  }
+  catch (err) {
     console.error(err);
     res.status(500).send({
       message: err.message || "Some error occurred while creating the User.",
@@ -33,7 +35,7 @@ exports.create = async (req, res) => {
   }
 };
 
-// Retrieve all Users from the database.
+/** Retrieve all Users from the database. */
 exports.findAll = async (req, res) => {
   const title = req.query.title;
   var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
@@ -49,7 +51,7 @@ exports.findAll = async (req, res) => {
     });
 };
 
-// Find a single User with an id
+/** Find a single User with an id  */
 exports.findOne = async (req, res) => {
   const id = req.params.id;
 
@@ -83,7 +85,7 @@ exports.findByIdentityAndPassword = async (req, res) => {
   }
 };
 
-// Update a User by the id in the request
+/** Update a User by the id in the request  */
 exports.update = async (req, res) => {
   const id = req.params.id;
 
@@ -108,7 +110,7 @@ exports.update = async (req, res) => {
     });
 };
 
-// Delete a User with the specified id in the request
+/** Delete a User with the specified id in the request */
 exports.delete = async (req, res) => {
   const id = req.params.id;
 
@@ -133,7 +135,7 @@ exports.delete = async (req, res) => {
     });
 };
 
-// Delete all Users from the database.
+/** Delete all Users from the database.  */
 exports.deleteAll = async (req, res) => {
   User.destroy({
     where: {},
@@ -149,7 +151,7 @@ exports.deleteAll = async (req, res) => {
     });
 };
 
-// Find all published Users
+/** Find all published Users  */
 exports.findAllPublished = async (req, res) => {
   User.findAll({ where: { published: true } })
     .then((data) => {

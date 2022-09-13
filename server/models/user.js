@@ -2,6 +2,7 @@ const { Sequelize, DataTypes } = require("sequelize");
 
 module.exports = (sequelize, Sequelize) => {
   const User = sequelize.define(
+    /** table 이름 */
     "user",
     {
       id: {
@@ -26,7 +27,8 @@ module.exports = (sequelize, Sequelize) => {
         allowNull: false,
       },
     },
-    {}
+    {
+    }
   );
 
   User.associate = (models) => {
